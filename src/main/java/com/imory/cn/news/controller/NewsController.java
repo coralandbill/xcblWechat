@@ -1,5 +1,6 @@
 package com.imory.cn.news.controller;
 
+import com.imory.cn.annotation.SessionCheck;
 import com.imory.cn.news.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ public class NewsController {
     private NewsService newsService;
 
     @RequestMapping("/index")
+    @SessionCheck
     public String index(Integer newsType, Model model) {
         newsType = newsType == null ? 1 : newsType;
         model.addAttribute("newsType", newsType);
