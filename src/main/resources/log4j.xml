@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <!-- [控制台STDOUT] -->
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <param name="encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{dd HH:mm:ss,SSS\} %-5p] [%t] %c{2\} - %m%n"/>
+        </layout>
+        <!--过滤器设置输出的级别-->
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="levelMin" value="debug"/>
+            <param name="levelMax" value="error"/>
+            <param name="AcceptOnMatch" value="true"/>
+        </filter>
+    </appender>
+    <!-- [公共Appender] -->
+    <appender name="COMMON" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/Users/jzb/Desktop/logs/web/imory_common.log"/>
+        <param name="Append" value="true"/>
+        <param name="encoding" value="UTF-8"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{dd HH:mm:ss,SSS\} %-5p] [%t] %c{2\} - %m%n"/>
+        </layout>
+        <!--过滤器设置输出的级别-->
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="levelMin" value="debug"/>
+            <param name="levelMax" value="error"/>
+            <param name="AcceptOnMatch" value="true"/>
+        </filter>
+    </appender>
+    <!-- [错误日志APPENDER] -->
+    <appender name="ERROR" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/Users/jzb/Desktop/logs/web/imory_error.log"/>
+        <param name="Append" value="true"/>
+        <param name="encoding" value="UTF-8"/>
+        <param name="threshold" value="error"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{dd HH:mm:ss,SSS\} %-5p] [%t] %c{2\} - %m%n"/>
+        </layout>
+    </appender>
+    <!-- [访问日志] -->
+    <appender name="WEBLOG" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/Users/jzb/Desktop/logs/web/imory_weblog.log"/>
+        <param name="Append" value="true"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="[%d{dd HH:mm:ss,SSS\} %-5p] [%t] %c{2\} - %m%n"/>
+        </layout>
+        <!--过滤器设置输出的级别-->
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="levelMin" value="debug"/>
+            <param name="levelMax" value="error"/>
+            <param name="AcceptOnMatch" value="true"/>
+        </filter>
+    </appender>
+
+    <!-- 指定logger的设置，additivity指示是否遵循缺省的继承机制-->
+    <logger name="com.imory" additivity="true">
+        <level value="debug"/>
+        <appender-ref ref="COMMON"/>
+        <appender-ref ref="ERROR"/>
+    </logger>
+    <logger name="com.springframework" additivity="true">
+        <level value="debug"/>
+        <appender-ref ref="COMMON"/>
+    </logger>
+    <logger name="WEBLOG" additivity="true">
+        <level value="debug"/>
+        <appender-ref ref="WEBLOG"/>
+    </logger>
+
+    <!-- 由于用了springmvc框架，日志配置好后，会输出很多spring日志，在log4j.xml中，增加一段配置，修改spring包的日志输出级别 -->
+    <!-- 通过<category></category>的定义可以将各个包中的类日志输出到不同的日志文件中 -->
+    <category name="org.springframework">
+        <priority value="error"/>
+        <appender-ref ref="ERROR"/>
+    </category>
+
+    <!-- Root Logger -->
+    <root>
+        <level value="${rootLevel}"></level>
+        <appender-ref ref="COMMON"/>
+        <appender-ref ref="ERROR"/>
+        <appender-ref ref="WEBLOG"/>
+    </root>
+
+    <!-- 在log4j.xml中添加新元素时最好按照下列顺序
+        <renderer></renderer>
+        <appender></appender>
+        <plugin></plugin>
+        <logger></logger>
+        <category></category>
+        <root></root>
+        <loggerfactory></loggerfactory>>
+        <categoryfactory></categoryfactory>
+    -->
+
+</log4j:configuration>

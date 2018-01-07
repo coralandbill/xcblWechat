@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 扫描路径 -->
+    <context:component-scan base-package="com.imory.cn"/>
+
+    <!-- don't handle the static resource -->
+    <mvc:default-servlet-handler/>
+
+    <!-- if you use annotation you must configure following setting -->
+    <!-- 激活基于注解的配置 @RequestMapping, @ExceptionHandler,数据绑定 ,@NumberFormat ,
+    @DateTimeFormat ,@Controller ,@Valid ,@RequestBody ,@ResponseBody等  -->
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8" />
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <mvc:interceptors>
+        <bean id="authorizeInterceptor" class="com.imory.cn.intercept.ControllerIntercept"/>
+    </mvc:interceptors>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 指定所上传文件的总大小不能超过51200KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+        <property name="maxUploadSize" value="51200000"/>
+    </bean>
+
+    <!-- 数据源配置 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="propertiesArray">
+            <array>
+                <ref bean="configProperties"/>
+                <ref bean="runtimeProperties"/>
+            </array>
+        </property>
+    </bean>
+
+    <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:dbconfig.properties"/>
+    </bean>
+
+    <bean id="runtimeProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:runtimes.properties"/>
+    </bean>
+
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.Driver}"/>
+        <property name="url" value="${jdbc.database.url}"/>
+        <property name="username" value="${jdbc.database.username}"/>
+        <property name="password" value="${jdbc.database.password}"/>
+
+        <property name="maxActive" value="${datasource.maxActive}"/>
+        <property name="initialSize" value="${datasource.initialSize}"/>
+        <property name="maxWait" value="${datasource.maxWait}"/>
+        <property name="minIdle" value="${datasource.maxIdle}"/>
+
+        <property name="validationQuery"
+                  value="SELECT 1"/> <!-- 验证连接是否成功, SQL SELECT 指令至少要返回一行  (测试/验证连接池连接的SQL语句也因数据库而异)-->
+        <property name="testOnBorrow" value="false"/> <!-- 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。 -->
+        <property name="testOnReturn" value="false"/> <!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/> <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <!-- 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。 -->
+        <property name="testWhileIdle" value="true"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="30000"/>
+        <property name="maxOpenPreparedStatements"
+                  value="20"/><!-- 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。 -->
+        <!-- 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。5.5及以上版本有PSCache，建议开启。 -->
+        <property name="poolPreparedStatements" value="true"/>
+        <!-- 指定每个PSCache连接上PSCache的大小 -->
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
+
+        <!-- 配置监控统计拦截的filters 去掉后监控界面sql无法统计
+            开启web监控、开启sql防火墙 -->
+        <property name="filters" value="stat,wall"></property>
+    </bean>
+
+    <!-- 数据库会话工厂 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="plugins">
+            <array>
+                <bean id="sqlStatementInterceptor" class="com.imory.cn.intercept.SqlStatementInterceptor"/>
+            </array>
+        </property>
+    </bean>
+
+    <!-- 数据库映射接口扫描 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.imory.cn.*.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <!-- 事务管理配置 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--<bean id="phoneCaptcha" class="com.imory.utils.PhoneCaptchaUtils"></bean>-->
+
+    <!-- 启用事务注解 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!--启动自动代理-->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <!-- 事务传播方式配置 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="SUPPORTS" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 事务切入点配置 -->
+    <aop:config>
+        <aop:pointcut id="txSupportCut" expression="within(com.imory.cn.*.service.*)"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txSupportCut"/>
+    </aop:config>
+
+</beans>
