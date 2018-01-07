@@ -3,24 +3,27 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>新闻ny</title>
+    <title>执法详情</title>
     <link rel="stylesheet" href="/css/frozen.css" type="text/css"/>
     <link rel="stylesheet" href="/css/css.css" type="text/css"/>
     <link type="text/css" href="/css/font-awesome.min.css" rel="stylesheet">
-
+    <style>
+        .new_ny img{
+            width: 100%;
+            height: 200px;
+        }
+    </style>
 </head>
 
 <body>
 <!--header end -->
 <div class="content">
-    <div class="new_ny">
-        <h3>${newsDetail.title}<span>新闻日期:${newsDetail.newsDateFormat}</span></h3>
-        <div><img src="${newsDetail.imgUrl}">
-        </div>
-        <p>${newsDetail.content}</p>
+    <div class="new_ny" style="overflow:hidden">
+        <h3>${enforceDetail.title}<span>执法日期:${enforceDetail.enforceDateFormat}</span></h3>
+        <p>${enforceDetail.enforceDesc}</p>
     </div>
     <%--<div class="fanye">
         <ul class="clearfix">
