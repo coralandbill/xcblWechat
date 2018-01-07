@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=0"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>新闻ny</title>
+    <title>${newsDetail.title}详情</title>
     <link rel="stylesheet" href="/css/frozen.css" type="text/css"/>
     <link rel="stylesheet" href="/css/css.css" type="text/css"/>
     <link type="text/css" href="/css/font-awesome.min.css" rel="stylesheet">
