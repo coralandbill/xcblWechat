@@ -1,7 +1,11 @@
 package com.imory.cn.utils;
 
 
+import org.apache.log4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 
 /**
@@ -11,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
  * @version 1.0
  */
 public class WechatOAuthUtils {
+
+    private static Logger logger = Logger.getLogger(WechatOAuthUtils.class);
+
     /**
      * 生成微信OAuth认证链接
      *
@@ -20,27 +27,58 @@ public class WechatOAuthUtils {
      * @param requirdFollow      生成的链接，是否要求必须关注微信号后才能打开，如果为true，则将使用snsapi_base方式，该方式如果用户未关注当前微信号，则报错，否则，使用snsapi_userinfo方式
      * @return 可直接使用的link地址
      */
-    public static String changeIntoOAuthURL(String uri, HttpServletRequest httpServletRequest,
+    public static String changeIntoOAuthURL(String appId,String uri, HttpServletRequest httpServletRequest,
                                             boolean autoDetect, boolean requirdFollow) {
         if (!autoDetect || WebUtils.isInWechatBrowser(httpServletRequest)) {
-            /*String url = WebUtils.getHostStr( httpServletRequest ) + uri;
-            ServiceRequest request = new ServiceRequest();
-            request.addRequestData( "origURL", url );
-            request.addRequestData( "scope", requirdFollow ? "snsapi_base" : "snsapi_userinfo" );
-            ServiceResponse response = ServiceClientFactory.getInstance().callService( "genOAuthURL", request );
-            return (String) response.getResponseData( "oauthurl" );*/
-            return "";
+
+            String url = WebUtils.getHostStr( httpServletRequest ) + uri;
+            String scope = requirdFollow ? "snsapi_base" : "snsapi_userinfo";
+            String state = "imory";
+
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.append( "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" )
+                        .append( appId )
+                        .append( "&redirect_uri=" )
+                        .append( URLEncoder.encode( url, "utf-8" ) )
+                        .append( "&response_type=code&scope=" )
+                        .append( scope )
+                        .append( "&state=" )
+                        .append( state )
+                        .append( "#wechat_redirect" );
+                return sb.toString();
+            }
+            catch( UnsupportedEncodingException e )
+            {
+                logger.error( "URL编码失败", e );
+                return uri;
+            }
         } else {
             return uri;
         }
     }
 
-    public static String changeIntoOAuthURL(String fullpath) {
-        /*ServiceRequest request = new ServiceRequest();
-        request.addRequestData( "origURL", fullpath );
-        request.addRequestData( "scope", "snsapi_base" );
-        ServiceResponse response = ServiceClientFactory.getInstance().callService( "genOAuthURL", request );
-        return (String) response.getResponseData( "oauthurl" );*/
+    public static String changeIntoOAuthURL(String appId,String fullpath) {
+        String state = "imory";
+        try
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.append( "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" )
+                    .append( appId )
+                    .append( "&redirect_uri=" )
+                    .append( URLEncoder.encode( fullpath, "utf-8" ) )
+                    .append( "&response_type=code&scope=" )
+                    .append( "snsapi_base" )
+                    .append( "&state=" )
+                    .append( state )
+                    .append( "#wechat_redirect" );
+            return sb.toString();
+        }
+        catch( UnsupportedEncodingException e )
+        {
+            logger.error( "URL编码失败", e );
+        }
         return "";
     }
 }

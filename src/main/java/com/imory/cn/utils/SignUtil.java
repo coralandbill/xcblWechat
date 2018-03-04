@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class SignUtil {
     //微信token 该处需要根微信验证token一致
-	private static String token = "_otcqiku_weixin_token_";
+	private static String token = "_imory_weixin_token_";
 
     /***
      *校验签名

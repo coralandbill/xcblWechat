@@ -31,23 +31,8 @@ import java.util.Map;
 @RequestMapping("/wx")
 public class WxMessageController
 {
-    @Value( "#{runtimeProperties['weichat.autoreply.subscribe']}" )
-    private String AUTOREPLY_SUBSCRIBE;
-
-    @Value( "#{runtimeProperties['weichat.autoreply.defaultreplay']}" )
-    private String AUTOREPLY_DEFAULT;
-
-    @Value( "#{runtimeProperties['wwwhost']}" )
-    private String WWWHOST;
-
-    @Value( "#{runtimeProperties['mobilehost']}" )
-    private String MOBILEHOST;
-
     @Value( "#{runtimeProperties['wechat.appid']}" )
     private String appId;
-
-    @Value( "#{runtimeProperties['wechat.appsecret']}" )
-    private String appsecret;
 
     private static Logger logger = Logger.getLogger("WECHATEVENT");
 

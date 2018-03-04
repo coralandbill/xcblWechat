@@ -15,6 +15,8 @@ public class OrgAccountInfo {
 
     public static final String ORG_SESSION_ID = "_orgAccountInfo_";
 
+    public static final String USER_OPEN_ID = "_USER_OPEN_ID_";
+
     private Integer id;
 
     private String userName;

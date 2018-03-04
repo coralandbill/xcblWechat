@@ -6,5 +6,6 @@
 <a href="/wechat/news/index.do?newsType=2">环保活动</a><br/>
 <a href="/wechat/enforce/index.do">执法现场</a><br/>
 <a href="/wechat/inform/index.do">一键举报</a><br/>
+<a href="/wechat/common/login.do">登录</a><br/>
 </body>
 </html>
