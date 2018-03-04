@@ -29,7 +29,7 @@
     <!-- 配置log4j.xml变量 -->
     <context-param>
         <param-name>rootLevel</param-name>
-        <param-value>ALL</param-value>
+        <param-value>debug</param-value>
     </context-param>
 
     <!-- 前端控制器 -->

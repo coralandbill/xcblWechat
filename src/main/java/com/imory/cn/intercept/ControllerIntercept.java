@@ -132,7 +132,7 @@ public class ControllerIntercept extends HandlerInterceptorAdapter {
             criteria.andOpenIdEqualTo(openId);
             List<com.imory.cn.org.dto.OrgAccountInfo> accountInfoList = orgAccountInfoMapper.selectByExample
                     (accountInfoExample);
-            if (accountInfoList != null) {
+            if (accountInfoList != null && accountInfoList.size() > 0) {
                 com.imory.cn.org.dto.OrgAccountInfo orgAccountInfo = accountInfoList.get(0);
                 OrgAccountInfo accountInfo = new OrgAccountInfo();
                 accountInfo.setCompanyId(orgAccountInfo.getCompanyId());
