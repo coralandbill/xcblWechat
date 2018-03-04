@@ -25,7 +25,7 @@ public class NewsAjaxController {
 
     @RequestMapping("/list")
     public Map list(int newsType, int startPos, int maxRows) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap();
         List<Map<String, Object>> newsList = newsService.listNews(newsType, startPos, maxRows + 1);
         if (newsList != null && newsList.size() > maxRows) {
             newsList.remove(newsList.size() - 1);

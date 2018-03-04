@@ -1,6 +1,7 @@
 package com.imory.cn.annotation;
 
 
+import com.imory.cn.common.model.OrgAccountInfo;
 import com.imory.cn.common.model.OrgCompany;
 
 import java.lang.annotation.ElementType;
@@ -18,5 +19,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SessionCheck
 {
-    String value() default OrgCompany.USER_COMPANY;
+    String value() default OrgAccountInfo.ORG_SESSION_ID;
 }

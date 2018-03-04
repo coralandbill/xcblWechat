@@ -18,4 +18,7 @@ public interface CommonMapper {
             "select * from org_company where logonId = #{logonId} and logonPsd = #{password}"
     })
     Map<String, Object> logon(@Param("logonId") String logonId, @Param("password") String password);
+
+    @Select( "select configId, paramName, paramValue, updateTime from wx_config where paramName=#{paramName}" )
+    public Map getWechatParam( @Param( "paramName" )String paramName );
 }

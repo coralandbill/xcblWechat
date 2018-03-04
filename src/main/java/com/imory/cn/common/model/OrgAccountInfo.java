@@ -13,6 +13,8 @@ public class OrgAccountInfo {
 
     public static final String ORIG_URI = "";
 
+    public static final String ORG_SESSION_ID = "_orgAccountInfo_";
+
     private Integer id;
 
     private String userName;

@@ -12,4 +12,6 @@ import java.util.Map;
 public interface CommonService {
 
     Map<String, Object> logon(String logonId, String password);
+
+    String getAccess_Token(String appId, String secret, String ACCESS_TOKEN);
 }
