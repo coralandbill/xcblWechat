@@ -1,6 +1,7 @@
 package com.imory.cn.company.controller;
 
 import com.imory.cn.annotation.SessionCheck;
+import com.imory.cn.common.model.OrgCompany;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ public class CompanyController {
     }
 
     @RequestMapping("/list")
-    @SessionCheck
+    @SessionCheck(value = OrgCompany.USER_COMPANY)
     public String list(Model model) {
         return null;
     }
