@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=0"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>企业排名</title>
+    <title>固废企业列表</title>
     <link rel="stylesheet" href="/css/frozen.css" type="text/css"/>
     <link rel="stylesheet" href="/css/css.css" type="text/css"/>
     <link type="text/css" href="/css/font-awesome.min.css" rel="stylesheet">
