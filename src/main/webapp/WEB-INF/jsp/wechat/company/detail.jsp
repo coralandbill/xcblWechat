@@ -74,6 +74,11 @@
                 if (result.success) {
                     loadingFlag = true;
                     var fileList = result.fileList;
+                    if(fileList.length == 0 && startPos == 0)
+                    {
+                        $("#news_p").text("暂无数据");
+                        $("#news_p").css("display","block");
+                    }
                     if (fileList != undefined && fileList.length > 0) {
                         startPos += fileList.length;
                     }

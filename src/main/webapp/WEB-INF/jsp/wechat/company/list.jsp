@@ -72,6 +72,11 @@
                 if (result.success) {
                     loadingFlag = true;
                     var companyList = result.companyList;
+                    if(companyList.length == 0 && startPos == 0)
+                    {
+                        $("#news_p").text("暂无数据");
+                        $("#news_p").css("display","block");
+                    }
                     if (companyList != undefined && companyList.length > 0) {
                         startPos += companyList.length;
                     }
