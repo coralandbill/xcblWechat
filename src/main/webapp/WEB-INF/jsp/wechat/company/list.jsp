@@ -17,12 +17,12 @@
 </head>
 
 <body>
-<header class="w100">
+<%--<header class="w100">
     <div class="logo fl"><a href="#"><img src="/images/logo.png"/></a></div>
-</header>
+</header>--%>
 <!--header end -->
 <div class="content">
-    <div class="new_banner"><img src="/images/banner_08.png"/></div>
+    <%--<div class="new_banner"><img src="/images/banner_08.png"/></div>--%>
     <div class="new_list new_list1 t10">
         <ul id="newsUl">
             <script type="text/x-jquery-tmpl" id="newInfoTmpl">

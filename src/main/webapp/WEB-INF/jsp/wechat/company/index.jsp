@@ -17,14 +17,14 @@
 </head>
 
 <body>
-<header class="w100">
-    <div class="logo fl"><a href="#"><img src="/images/logo.png"/></a></div>
-</header>
+<%--<header class="w100">
+<div class="logo fl"><a href="#"><img src="/images/logo.png"/></a></div>
+</header>--%>
 <!--header end -->
 <div class="content">
-    <div class="new_banner"><img src="/images/banner_08.png"/></div>
+    <%--<div class="new_banner"><img src="/images/banner_08.png"/></div>--%>
     <div class="new_list new_list1 t10">
-        <ul id="newsUl">
+        <ul id="newsUl" style="font-size: 28px;">
             <script type="text/x-jquery-tmpl" id="newInfoTmpl">
                 <li class="clearfix"><span>#[$data.orderNum]</span><a href="javascript:void(0);">#[$data.companyName]</a></li>
             </script>
