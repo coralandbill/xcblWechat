@@ -52,6 +52,6 @@ public class CommonController {
             session.setAttribute(OrgAccountInfo.ORIG_URI, "");
             return "redirect:" + ORIG_URI;
         }
-        return "redirect:/wechat/news/index.do";
+        return "redirect:/wechat/company/list.do";
     }
 }
