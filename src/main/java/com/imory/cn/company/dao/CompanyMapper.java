@@ -16,14 +16,14 @@ import java.util.Map;
 public interface CompanyMapper {
 
     @Select({
-            "select companyName,orderNum,id from org_company",
+            "select companyName,orderNum,id from org_company where enable = 0",
             "order by orderNum asc limit #{startPos},#{maxRows}"
     })
     List<Map<String, Object>> listOrderCompany(@Param("startPos") int startPos, @Param("maxRows") int maxRows);
 
 
     @Select({
-            "select id,companyName from org_company",
+            "select id,companyName from org_company where enable = 0",
             "order by orderNum asc limit #{startPos},#{maxRows}"
     })
     List<Map<String, Object>> listCompany(@Param("startPos") int startPos, @Param("maxRows") int maxRows);
